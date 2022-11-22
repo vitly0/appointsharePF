@@ -1,0 +1,47 @@
+<div class="fix">
+  <div class="container">
+    <div class="row">
+      <div class="col-10">
+        <div class="schedulenew">
+          <h2 class='my-3'>予定編集</h2>
+        <div>
+          <%= form_with model:@schedule, local:true do |f| %>
+            <div class="row">
+              <div class="col-3">
+                <h4>年</h4>
+                <%= f.select :year, [['2022', 2022], ['2023', 2023], ['2024', 2024], ['2025', 2025], ['2026', 2026]], { include_blank: true, selected: 1 }, { id: "month", class: "month_class" } %>
+              </div>
+              <div class="col-3">
+                <h4>月</h4>
+                <%= f.select :month, [['1', 1], ['2', 2], ['3', 3], ['4', 4], ['5', 5], ['6', 6], ['7', 7], ['8', 8], ['9', 9], ['10', 10], ['11', 11], ['12', 12]], { include_blank: true, selected: 1 }, { id: "month", class: "month_class" } %>
+              </div>
+              <div class="col-3">
+                <h4>日</h4>
+                <%= f.select :day, [['1', 1], ['2', 2], ['3', 3], ['4', 4], ['5', 5], ['6', 6], ['7', 7], ['8', 8], ['9', 9], ['10', 10], ['11', 11], ['12', 12], ['13', 13], ['14', 14], ['15', 15], ['16', 16], ['17', 17], ['18', 18], ['19', 19], ['20', 20], ['21', 21], ['22', 22], ['23', 23], ['24', 24], ['25', 25], ['26', 26], ['27', 27], ['28', 28], ['29', 29], ['30', 30], ['31', 31]], { include_blank: true, selected: 1 }, { id: "day", class: "day_class" } %>
+              </div>
+            </div>
+            <h4 class='pt-3'>場所</h4>
+            <%= f.text_field:location, :placeholder =>"#{@schedule.location}" %>
+	          <h4 class='pt-3'>タイトル</h4>
+            <%= f.text_field :title, :placeholder =>"#{@schedule.title}"%>
+            <h4 class='pt-3'>説明</h4>
+            <%= f.text_area :body,:placeholder =>"#{@schedule.body}" %>
+            <h4 class='pt-3'>画像</h4>
+            <%= f.file_field :schedule_image, accept: "image/*" %>
+            <div class='pt-3'>
+              <%= f.submit '投稿' %>
+            </div>
+	        <% end %>
+	        <% if @schedule.end_user == current_end_user %>
+            <%= link_to "削除", schedule_path(@schedule), method: :delete %>
+          <% end %>
+        </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <p><%= link_to "全予定一覧",schedules_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-5" %></p>
+        <p><%= link_to "全社員一覧",user_index_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-3" %></p>
+      </div>
+    </div>
+  </div>
+</div>

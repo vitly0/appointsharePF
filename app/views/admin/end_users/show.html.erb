@@ -1,0 +1,66 @@
+<section class="inner">
+	<h2 class="section-ttl"><%= @end_user.full_name %>さんのページ</h2>
+	<table class="end_user_info">
+		<thead>
+			<th></th>
+			<th></th>
+			<th></th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>会員ID</td>
+				<td colspan="2"><%= @end_user.id %></td>
+			</tr>
+			<tr>
+				<td>名前</td>
+				<td>(姓) <%= @end_user.first_name %></td>
+				<td>(名) <%= @end_user.last_name %></td>
+			</tr>
+			<tr>
+				<td>フリガナ</td>
+				<td>(セイ) <%= @end_user.first_name_kana %></td>
+				<td>(メイ) <%= @end_user.last_name_kana %></td>
+			</tr>
+			<tr>
+				<td>所属部署</td>
+				<td colspan="2"><%= @end_user.department_name %></td>
+			</tr>
+			<tr>
+				<td>勤務地</td>
+				<td colspan="2"><%= @end_user.work_location %></td>
+			</tr>
+			<tr>
+				<td>電話番号</td>
+				<td colspan="2"><%= @end_user.telephone_number %></td>
+			</tr>
+			<tr>
+				<td>メールアドレス</td>
+				<td colspan="2"><%= @end_user.email %></td>
+			</tr>
+			<tr>
+			  <td>出勤状況</td>
+				<td>
+					<% if @end_user.is_worked? %>
+						<span class="text-active">出勤中</span>	
+					<% else %>
+						<span class="text-invalid">退勤中</span>
+					<% end %>
+				</td>
+			</tr>
+			<tr>
+			  <td>会員ステータス</td>
+			  <td>
+			    <% if @end_user.is_deleted? %>
+						<span class="text-active">有効</span>	
+					<% else %>
+						<span class="text-invalid">利用停止</span>
+					<% end %>
+				</td>
+			</tr>
+			<tr>
+				<td><%= link_to "編集", edit_admin_end_user_path(@end_user), class: "btn btn-success" %></td>
+			</tr>
+		</tbody>
+	</table>
+	
+</section>

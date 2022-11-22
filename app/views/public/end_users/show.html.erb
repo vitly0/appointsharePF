@@ -1,0 +1,75 @@
+<div class="fix">
+	<div class='container'>
+		<div class='row'>
+			<div class="col-10">
+				<% if @end_user == current_end_user %>
+					<h1 class="pt-5 pl-3">マイページ</h1>
+				<% else %>
+  				<h1 class="pt-5 pl-3">社員情報</h1>
+				<% end %>
+				<section class="inner">
+					<div class='container'>
+						<div class='row'>
+							<div class="col-5 pt-3 ">
+								<td><%= image_tag @end_user.get_profile_image, size: '200x250' %></td>
+							</div>
+							<div class="col-7 pt-2">
+								<p class="pl-3">フリガナ　　　　　<%= @end_user.full_name_kana %></p>
+								<p class="pl-3">名前　　　　　　　<%= @end_user.full_name %></p>
+								<p class="pl-3">所属部署　　　　　<%= @end_user.department_name %></p>
+								<p class="pl-3">勤務地　　　　　　<%= @end_user.work_location %></p>
+								<p class="pl-3">電話番号　　　　　<%= @end_user.telephone_number %></p>
+								<p class="pl-3">メールアドレス　　<%= @end_user.email %></p>
+								<p class="pl-3">勤務状況　　　　　
+								<% if @end_user.is_worked == true %>
+									<% if @end_user == current_end_user && @end_user.full_name != "guest user"  %>
+						  			<%= link_to "出勤中", update_worked_path, method: :patch %>
+									<% else %>
+	          				出勤中
+	          			<% end %>
+								<% else %>
+									<% if @end_user == current_end_user && @end_user.full_name != "guest user"  %>
+						  	  	<%= link_to "退勤中", update_worked_path, method: :patch %>
+									<% else %>
+										退勤中　
+									<% end %>
+								<% end %>
+								</p>
+								<% if @end_user == current_end_user || current_end_user.full_name == "guest user" %>
+								<% else %>
+				  		  	<p class="pl-3">連携社員　　　　　
+            	  	<% if current_end_user.following?(@end_user) %>
+              	  	<%= link_to "連携中", end_user_relationships_path(@end_user.id), method: :delete %>
+            	  	<% else %>
+              			<%= link_to "未登録", end_user_relationships_path(@end_user.id), method: :post %>
+            			<% end %>
+        				<% end %>
+        				<p class="pl-3">
+        			  	<% if @end_user == current_end_user && @end_user.full_name != "guest user" %>
+					  				<%= link_to "プロフィールを編集する",edit_information_path(current_end_user.id) %>
+									<% end %>
+        				</p>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<div class='col-2 menu text-align:right'>
+				<% if current_end_user.full_name != "guest user" %>
+					<p><%= link_to "予定を投稿",new_schedule_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-5" %></p>
+				<% end %>
+				<% if @end_user != current_end_user && current_end_user.full_name != "guest user" %>
+			  	<p><%= link_to '投稿した予定', user_schedule_path(@end_user.id),class: "btn btn-warning btn-sm mb-3 sign_in mt-3" %></p>
+			  <% elsif @end_user != current_end_user && current_end_user.full_name == "guest user" %>
+			    <p><%= link_to '投稿した予定', user_schedule_path(@end_user.id),class: "btn btn-warning btn-sm mb-3 sign_in mt-5" %></p>
+				<% end %>
+				<% if current_end_user.full_name == "guest user" && @end_user == current_end_user %> 
+			  	<p><%= link_to "全予定一覧",schedules_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-5" %></p>
+				<% else %>
+			  	<p><%= link_to "全予定一覧",schedules_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-3" %></p>
+      	<% end %>				 
+      	<p><%= link_to "全社員一覧",user_index_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-3" %></p>
+			</div>
+		</div>
+	</div>
+</div>

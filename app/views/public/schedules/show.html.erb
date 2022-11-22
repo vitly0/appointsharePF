@@ -1,0 +1,98 @@
+<div class="rate">
+<div class='container'>
+  <div class='row'>
+    <div class='col-3'>
+	    <p class='mt-3'>参加者(<%= @schedule.attends.count %>人)</p>
+	     <% @attends.each do |attend| %>
+        <%= link_to user_page_path(attend.end_user.id) do %>
+          <p><%= attend.end_user.full_name %></p>
+        <% end %>
+      <% end %>
+    </div>
+  <div class="col-7">
+	  <section class="inner">
+		  <h1 class='mt-3'><%= @schedule.title %></h1>
+		  <div class='container mt-3'>
+		    <div class='row'>
+		      <div class='col-6'>
+		        <a><%= image_tag @schedule.get_schedule_image, size: '220x270' %></a>
+		      </div>
+		      <div class='col-6'>
+		        <p><予定日></p>
+		        <p><%= @schedule.full_day %></p>
+		        <p><場所></p>
+		        <p><%= @schedule.location %></p>
+		        <% if current_end_user.full_name != "guest user" %>
+		          <p><参加状況></p>
+              <% if @schedule.attended?(current_end_user) %>
+                <%= link_to schedule_attends_path(@schedule.id), method: :delete do %>
+                  <p>参加中</p>
+                <% end %>
+	           	<% else %>
+                <%= link_to schedule_attends_path(@schedule.id), method: :post do %>
+                  <p>不参加</p>
+                <% end %>
+              <% end %>
+            <% end %>
+            <% if current_end_user == @schedule.end_user %>
+              <p><<%= link_to "予定を編集する", edit_schedule_path(@schedule.id) %>></p>
+              <p><<%= link_to "予定を削除する", schedule_path(@schedule), method: :delete %>></p>
+            <% end %>
+		      </div>
+		    </div>
+		    <p class='mt-3'><%= @schedule.body %></p>
+          <div class='row'>
+            <div class='col-6'>
+              <p>コメント</p>
+              <% @schedule_comments.each do |schedule_comment| %>
+    	          <p><%= schedule_comment.end_user.full_name %>
+    	             <% if current_end_user.full_name != "guest user" %>
+                    　　<%= link_to "削除", schedule_schedule_comment_path(@schedule, schedule_comment), method: :delete %>
+                   <% end %>
+                </p>
+                <p><%= schedule_comment.comment %></p>
+              <% end %>
+		        <% if current_end_user.full_name != "guest user" %>
+		          <h4>コメントする</h4>
+		          <%= form_with(model: [@schedule, @schedule_comment], method: :post) do |f| %>
+			          <%= f.text_area :comment, rows: '2', cols: '20' %>
+			          <%= f.hidden_field :schedule_id, value: @schedule.id %>
+    	          <%= f.submit "送信" %>
+              <% end %>
+            <% end %>
+            </div>
+          <div class='col-6'> 
+             <p>報告</p>
+              <% @reports.each do |report| %>
+    	           <p><%= report.end_user.full_name %>
+    	             <% if current_end_user.full_name != "guest user" %>
+    	             　　<%= link_to "削除", schedule_report_path(@schedule, report), method: :delete %>
+    	             <% end %>
+    	           </p>
+                <p><%= report.comment %></p>
+    <% end %>
+    <% if current_end_user.full_name != "guest user" %>
+      <h4>報告する</h4>
+		  <%= form_with(model: [@schedule, @report], method: :post) do |f| %>
+			  <%= f.text_area :comment, rows: '2', cols: '20' %>
+			  <%= f.hidden_field :schedule_id, value: @schedule.id %>
+    	  <%= f.submit "送信" %>
+      <% end %>
+    <% end %>
+    </div>
+    </div>
+	</section>
+	<div class="pb-5"></div>
+</div>
+<div class="col-2">
+  <% if current_end_user.full_name != "guest user" %>
+  <p><%= link_to "予定を投稿",new_schedule_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-5" %></p>
+  <p><%= link_to "全予定一覧",schedules_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-3" %></p>
+  <% else %>
+  <p><%= link_to "全予定一覧",schedules_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-5" %></p>
+  <% end %>
+  <p><%= link_to "全社員一覧",user_index_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-3" %></p>
+</div>  
+</div>
+</div>
+</div>

@@ -1,0 +1,82 @@
+<div class="rate">
+  <div class='container'>
+    <div class='row'>
+      <div class='col-10'>
+        <% if @records.any? %>
+        <% if @model == 'end_user' %>
+	        <h3>EndUser search for "<%= @content %>"</h3>
+            <h2>検索社員一覧</h2>
+            <table class='table'>
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>部署名</th>
+                  <th>名前</th>
+                  <% if current_end_user.full_name != "guest user" %>
+                    <th>連携社員</th>
+                  <% end %>
+                </tr>
+              </thead>
+              <tbody>
+                <% @records.each do |end_user| %>
+                  <% if end_user.full_name != "guest user" %>
+                    <tr>
+                      <td><%= link_to user_page_path(end_user.id) do %><%= image_tag end_user.get_profile_image, size: '50x50' %><% end %></td>
+                      <td><%= link_to user_page_path(end_user.id) do %><%= end_user.department_name %><% end %></td>
+                      <td><%= link_to user_page_path(end_user.id) do %><%= end_user.full_name %><% end %></td>
+                      <% if current_end_user.full_name != "guest user" %>
+                        <td>
+                          <% if end_user != current_end_user %>
+                            <% if current_end_user.following?(end_user) %>
+                              <%= link_to "連携中", end_user_relationships_path(end_user.id), method: :delete %>
+                            <% else %>
+                              <%= link_to "未登録", end_user_relationships_path(end_user.id), method: :post %>
+                            <% end %>
+                          <% end %>
+                        </td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+        <% elsif @model == 'schedule' %>
+          <h2>検索予定一覧</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>タイトル</th>
+                <th>予定日</th>
+                <th>場所</th>
+                <th>作成者</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @records.each do |schedule| %>
+                <tr>
+                  <td><%= link_to schedule_path(schedule.id) do %><%= schedule.title %><% end %></td>
+                  <td><%= link_to schedule_path(schedule.id) do %><%= schedule.full_day %><% end %></td>
+                  <td><%= link_to schedule_path(schedule.id) do %><%= schedule.location %><% end %></td>
+                  <td><%= link_to schedule_path(schedule.id) do %><%= schedule.end_user.full_name %><% end %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %> 
+      <% else %>
+        <h2 class="my-3">"検索データが見つかりませんでした"</h2>
+      <% end %>
+      </div>
+      <div class="col-2">
+        <% if current_end_user.full_name != "guest user" %>
+          <p><%= link_to "予定を投稿",new_schedule_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-5" %></p>
+          <p><%= link_to "全予定一覧",schedules_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-3" %></p>
+        <% else %>
+          <p><%= link_to "全予定一覧",schedules_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-5" %></p>
+        <% end %>
+        <p><%= link_to "全社員一覧",user_index_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-3" %></p>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,44 @@
+<section class="inner">
+	<h2 class="section-ttl"><%= @end_user.first_name %> <%= @end_user.last_name %> さんの会員情報編集</h2>
+	<%= form_with model:@end_user, url: admin_end_user_path(@end_user) do |f| %>
+		<table class="end_user_info end_user_form">
+			<thead>
+				<th></th>
+				<th></th>
+				<th></th>
+			</thead>
+			<tbody>
+				<tr>
+					<td>名前</td>
+					<td><%= f.label :first_name, "(姓)", class: "end_user_name" %> <%= f.text_field :first_name, :placeholder =>"#{@end_user.first_name}" %></td>
+					<td><%= f.label :last_name, "(名)", class: "end_user_name" %> <%= f.text_field :last_name, :placeholder =>"#{@end_user.last_name}" %></td>
+				</tr>
+				<tr>
+					<td>フリガナ</td>
+					<td><%= f.label :first_name_kana, "(セイ)" %> <%= f.text_field :first_name_kana, :placeholder =>"#{@end_user.first_name_kana}" %></td>
+					<td><%= f.label :last_name_kana, "(メイ)" %> <%= f.text_field :last_name_kana, :placeholder =>"#{@end_user.last_name_kana}" %></td>
+				</tr>
+				<tr>
+					<td>メールアドレス</td>
+					<td colspan="2"><%= f.email_field :email, autocomplete: "email", :placeholder =>"#{@end_user.email}" %></td>
+				</tr>
+				<tr>
+					<td>部署名</td>
+					<td colspan="2"><%= f.text_field :department_name, :placeholder =>"#{@end_user.department_name}" %></td>
+				</tr>
+				<tr>
+					<td>勤務地</td>
+					<td colspan="2"><%= f.text_field :work_location, :placeholder =>"#{@end_user.work_location}" %></td>
+				</tr>
+				<tr>
+					<td>会員ステータス</td>
+					<td><%= f.radio_button :is_deleted, true %><%= f.label :is_deleted, "有効", class: "text-deleted" %></td>
+					<td><%= f.radio_button :is_deleted, false %><%= f.label :is_deleted, "利用停止", class: "text-invalid" %></td>
+				</tr>
+				<tr>
+					<td colspan="3"><%= f.submit "更新", class: "btn btn-primary" %></td>
+				</tr>
+			</tbody>
+		</table>
+	<% end %>
+</section>

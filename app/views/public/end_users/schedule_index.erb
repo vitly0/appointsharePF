@@ -1,0 +1,40 @@
+<div class="rate">
+  <div class='container'>
+    <div class='row'>
+      <div class="col-10">
+        <% if @schedules.any? %>
+          <h2 class='my-5'><%= current_end_user.full_name %>様が投稿した予定一覧</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>タイトル</th>
+                <th>予定日</th>
+                <th>場所</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @schedules.each do |schedule| %>
+                <tr>
+                  <td><%= link_to schedule_path(schedule.id) do %><%= schedule.title %><% end %></td>
+                  <td><%= link_to schedule_path(schedule.id) do %><%= schedule.full_day %><% end %></td>
+                  <td><%= link_to schedule_path(schedule.id) do %><%= schedule.location %><% end %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <h2 class='my-5'>"<%= @end_user.full_name %>様が投稿した予定はありません"</h2>
+        <% end %>
+      </div>
+      <div class="col-2">
+        <% if current_end_user.full_name != "guest user" %>
+          <p><%= link_to "予定を投稿",new_schedule_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-5" %></p>
+          <p><%= link_to "全予定一覧",schedules_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-3" %></p>
+        <% else %>
+          <p><%= link_to "全予定一覧",schedules_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-5" %></p>
+        <% end %>
+        <p><%= link_to "全社員一覧",user_index_path,class: "btn btn-warning btn-sm mb-3 sign_in mt-3" %></p>
+      </div>
+    </div>
+  </div>
+</div>

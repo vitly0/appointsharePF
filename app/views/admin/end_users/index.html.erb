@@ -1,0 +1,46 @@
+<section class="inner">
+	<h2 class="section-ttl">会員一覧</h2>
+	<%= form_with url: admin_search_path, method: :get, local: true do |f| %>
+    <%= f.text_field :content %>
+    <%= f.select :model, options_for_select({ "EndUser" => "end_user", "Schedule" => "schedule" }) %>
+    <%= f.select :method, options_for_select({ "完全一致" => "perfect", "前方一致" => "forward", "後方一致" => "backward", "部分一致" => "partial" }) %>
+    <%= f.submit '検索' %>
+  <% end %>
+	<table class="admin_end_user_index has_border">
+	<thead>
+		<th>会員ID</th>
+		<th>所属部署</th>
+		<th>名前</th>
+		<th>出勤状況</th>
+		<th>会員ステータス</th>
+		<th></th>
+	</thead>
+	<tbody>
+		<% @end_users.each do |end_user| %>
+			<tr>
+				<td><%= end_user.id %></td>
+				<td><%= end_user.department_name %></td>
+				<td><%= end_user.full_name %></td>
+				<td>
+					<% if end_user.is_worked? %>
+						<span class="text-active">出勤中</span>	
+					<% else %>
+						<span class="text-invalid">退勤中</span>
+					<% end %>
+				</td>
+				<td>
+					<% if end_user.is_deleted? %>
+						<span class="text-active">有効</span>	
+					<% else %>
+						<span class="text-invalid">利用停止</span>
+					<% end %>
+				</td>
+				<td><%= link_to "詳細", admin_end_user_path(end_user), class: "btn btn-primary" %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+</section>
+<%= link_to 'ログアウト', destroy_admin_session_path, method: :delete %>
+<%= link_to 'スケジュール一覧', admin_schedules_path %>
+

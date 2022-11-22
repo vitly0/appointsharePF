@@ -1,0 +1,34 @@
+<div class='container'>
+<div class='row'>
+<div class='col-3'>
+	<%= link_to "社員一覧",user_index_path %>
+	<%= link_to "予定投稿",new_schedule_path %>
+</div>
+<div class="col-8">
+	<section class="inner">
+		<h1><%= @schedule.title %></h1>
+		<a><%= image_tag @schedule.get_schedule_image, size: '200x250' %></a>
+		<p><%= @schedule.body %></p>
+		<p><%= @schedule.full_day %></p>
+		<p><%= @schedule.location %></p>
+		<%= link_to "編集", edit_admin_schedule_path(@schedule.id) %>
+    <p>コメント</p>
+    <% @schedule_comments.each do |schedule_comment| %>
+    	<%= schedule_comment.end_user.full_name %>
+      <%= schedule_comment.comment %>
+      <%= link_to "削除", schedule_schedule_comment_path(@schedule, schedule_comment), method: :delete %>
+    <% end %>
+    <p>報告</p>
+    <% @reports.each do |report| %>
+    	<%= report.end_user.full_name %>
+      <%= report.comment %>
+      <%= link_to "削除", schedule_report_path(@schedule, report), method: :delete %>
+    <% end %>
+    <p>参加者</p>
+    <% @attends.each do |attend| %>
+      <%= attend.end_user.full_name %>
+    <% end %>
+	</section>
+</div>
+</div>
+</div>

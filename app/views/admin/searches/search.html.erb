@@ -1,0 +1,65 @@
+<% if @model == 'end_user' %>
+	<h3>EndUser search for "<%= @content %>"</h3>
+  <div class='container'>
+  <div class='row'>
+    <div class='col-3'>
+      <h2>User info</h2>
+    </div>
+    <div class='col-8 offset-md-1'>
+      <h2>Books</h2>
+      <table class='table'>
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>部署名</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @records.each do |end_user| %>
+      <% if end_user.full_name != "guest user" %>
+        <tr>
+          <td><%= link_to admin_end_user_path(end_user) do %><%= image_tag end_user.get_profile_image, size: '50x50' %><% end %></td>
+          <td><%= link_to admin_end_user_path(end_user) do %><%= end_user.department_name %><% end %></td>
+          <td><%= link_to admin_end_user_path(end_user) do %><%= end_user.full_name %><% end %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<% elsif @model == 'schedule' %>
+<div class='container'>
+  <div class='row'>
+    <div class='col-3'>
+      <h2>User info</h2>
+    </div>
+    <div class='col-8 offset-md-1'>
+      <h2>予定一覧</h2>
+      <table class='table'>
+  <thead>
+    <tr>
+      <th>予定日</th>
+      <th>タイトル</th>
+      <th>所属部署</th>
+      <th>作成者</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @records.each do |schedule| %>
+      <tr>
+        <td><%= link_to admin_schedule_path(schedule) do %><%= schedule.full_day %><% end %></td>
+        <td><%= link_to admin_schedule_path(schedule) do %><%= schedule.title %><% end %></td>
+        <td><%= link_to admin_schedule_path(schedule) do %><%= schedule.end_user.department_name %><% end %></td>
+        <td><%= link_to admin_schedule_path(schedule) do %><%= schedule.end_user.full_name %><% end %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+    </div>
+  </div>
+</div>
+<% end %> 
+

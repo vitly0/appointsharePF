@@ -1,0 +1,11 @@
+<div class="just">
+<h4 class="text-align:center">ようこそ、AppointShareへ!!</h4>
+<h4>このサイトは、社内の予定管理をSNSのように共有することで、</h4>
+<h4>より効率的な予定作成をサポートします。</h4>
+<% if end_user_signed_in? || admin_signed_in? %>
+  <% else %>
+    <div class="guestlogin">
+      <%= link_to 'ゲストログイン（閲覧用）', end_users_guest_sign_in_path, class: "btn btn-secondary btn-sm mb-3 sign_in", method: :post %>
+    </div>
+  <% end %>
+</div>
