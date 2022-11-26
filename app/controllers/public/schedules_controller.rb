@@ -1,4 +1,5 @@
 class Public::SchedulesController < ApplicationController
+  before_action :authenticate_end_user!
   def new
     @schedule = Schedule.new
   end
@@ -35,15 +36,15 @@ class Public::SchedulesController < ApplicationController
       render :edit
     end
   end
-  
+
   def destroy
     @schedule = Schedule.find(params[:id])
     @schedule.destroy
     redirect_to user_schedule_path(current_end_user)
   end
 
-    
-  
+
+
   private
   def schedule_params
     params.require(:schedule).permit(:title, :schedule_image, :body, :year, :month, :day, :location)

@@ -19,7 +19,7 @@
           <%= link_to user_page_path(current_end_user),class: 'nav-link text-dark' do %>
             マイページ
           <% end %>
-        </li> 
+        </li>
         <li>
           <%=  link_to user_schedule_path(current_end_user),class: 'nav-link text-dark' do %>
             投稿した予定
@@ -41,14 +41,22 @@
           <% end %>
         </li>
       <% elsif admin_signed_in? %>
-        <li>
-          <%= link_to admin_schedules_path,class: 'nav-link text-dark' do %>
-            社員一覧
+        <li class='pt-2 pr-3'>
+          <%= form_with url: admin_search_path, method: :get, local: true do |f| %>
+            <%= f.text_field :content %>
+            <%= f.select :model, options_for_select({ "EndUser" => "end_user", "Schedule" => "schedule" }) %>
+            <%= f.select :method, options_for_select({ "完全一致" => "perfect", "前方一致" => "forward", "後方一致" => "backward", "部分一致" => "partial" }) %>
+            <%= f.submit '検索' %>
           <% end %>
         </li>
         <li>
           <%= link_to admin_end_users_path,class: 'nav-link text-dark' do %>
-            社員一覧
+            全社員一覧
+          <% end %>
+        </li>
+        <li>
+          <%= link_to admin_schedules_path,class: 'nav-link text-dark' do %>
+            全予定一覧
           <% end %>
         </li>
         <li>

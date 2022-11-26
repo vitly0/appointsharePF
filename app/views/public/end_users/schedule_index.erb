@@ -3,7 +3,7 @@
     <div class='row'>
       <div class="col-10">
         <% if @schedules.any? %>
-          <h2 class='my-5'><%= current_end_user.full_name %>様が投稿した予定一覧</h2>
+          <h2 class='my-5'><%= @end_user.full_name %>様が投稿した予定一覧</h2>
           <table class='table'>
             <thead>
               <tr>

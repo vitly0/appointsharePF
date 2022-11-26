@@ -1,4 +1,5 @@
 class Admin::SchedulesController < ApplicationController
+  before_action :authenticate_admin!
   def index
     @schedules = Schedule.all
   end
@@ -22,7 +23,7 @@ class Admin::SchedulesController < ApplicationController
       render :edit
     end
   end
-  
+
   def destroy
     @schedule = Schedule.find(params[:id])
     @schedule.destroy

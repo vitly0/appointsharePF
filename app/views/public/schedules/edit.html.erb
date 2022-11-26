@@ -32,9 +32,7 @@
               <%= f.submit '投稿' %>
             </div>
 	        <% end %>
-	        <% if @schedule.end_user == current_end_user %>
             <%= link_to "削除", schedule_path(@schedule), method: :delete %>
-          <% end %>
         </div>
         </div>
       </div>

@@ -1,8 +1,9 @@
 class Public::EndUsersController < ApplicationController
+  before_action :authenticate_end_user!
   def index
     @end_users = EndUser.all
   end
-  
+
   def schedule_index
     @end_user = EndUser.find(params[:id])
     @schedules = @end_user.schedules
@@ -24,7 +25,7 @@ class Public::EndUsersController < ApplicationController
       render :edit
     end
    end
-   
+
    def worked
     @end_user = EndUser.find(current_end_user.id)
     if @end_user.is_worked == true
@@ -35,7 +36,7 @@ class Public::EndUsersController < ApplicationController
     @end_user.update(worked_params)
     redirect_to user_page_path(@end_user), notice: "You have updated user successfully."
    end
-  
+
   private
 
   def end_user_params

@@ -1,34 +1,53 @@
-<div class='container'>
-<div class='row'>
-<div class='col-3'>
-	<%= link_to "社員一覧",user_index_path %>
-	<%= link_to "予定投稿",new_schedule_path %>
-</div>
-<div class="col-8">
-	<section class="inner">
-		<h1><%= @schedule.title %></h1>
-		<a><%= image_tag @schedule.get_schedule_image, size: '200x250' %></a>
-		<p><%= @schedule.body %></p>
-		<p><%= @schedule.full_day %></p>
-		<p><%= @schedule.location %></p>
-		<%= link_to "編集", edit_admin_schedule_path(@schedule.id) %>
-    <p>コメント</p>
-    <% @schedule_comments.each do |schedule_comment| %>
-    	<%= schedule_comment.end_user.full_name %>
-      <%= schedule_comment.comment %>
-      <%= link_to "削除", schedule_schedule_comment_path(@schedule, schedule_comment), method: :delete %>
-    <% end %>
-    <p>報告</p>
-    <% @reports.each do |report| %>
-    	<%= report.end_user.full_name %>
-      <%= report.comment %>
-      <%= link_to "削除", schedule_report_path(@schedule, report), method: :delete %>
-    <% end %>
-    <p>参加者</p>
-    <% @attends.each do |attend| %>
-      <%= attend.end_user.full_name %>
-    <% end %>
-	</section>
-</div>
-</div>
+<div class="rate">
+  <div class='container'>
+    <div class='row'>
+      <div class='col-3'>
+        <p class='mt-3'>参加者(<%= @schedule.attends.count %>人)</p>
+          <% @attends.each do |attend| %>
+            <%= link_to user_page_path(attend.end_user.id) do %>
+              <p><%= attend.end_user.full_name %></p>
+            <% end %>
+          <% end %>
+      </div>
+      <div class="col-7">
+	      <section class="inner">
+		      <h1 class='mt-3'><%= @schedule.title %></h1>
+		      <div class='container mt-3'>
+		        <div class='row'>
+		          <div class='col-6'>
+		            <a><%= image_tag @schedule.get_schedule_image, size: '220x270' %></a>
+		          </div>
+		          <div class='col-6'>
+		            <p><予定日></p>
+		            <p><%= @schedule.full_day %></p>
+		            <p><場所></p>
+		            <p><%= @schedule.location %></p>
+                  <p><<%= link_to "予定を編集する", edit_admin_schedule_path(@schedule.id) %>></p>
+                  <p><<%= link_to "予定を削除する", admin_schedule_path(@schedule), method: :delete %>></p>
+		          </div>
+		        </div>
+		        <p class='mt-3'><%= @schedule.body %></p>
+            <div class='row'>
+              <div class='col-6'>
+                <p>コメント</p>
+                <% @schedule_comments.each do |schedule_comment| %>
+    	            <p><%= schedule_comment.end_user.full_name %>
+                    <%= link_to "削除", schedule_schedule_comment_path(@schedule, schedule_comment), method: :delete %>
+                  </p>
+                  <p><%= schedule_comment.comment %></p>
+                <% end %>
+              </div>
+              <div class='col-6'>
+                <p>報告</p>
+                <% @reports.each do |report| %>
+    	           <p><%= report.end_user.full_name %>
+    	             <%= link_to "削除", schedule_report_path(@schedule, report), method: :delete %>
+    	           </p>
+                <p><%= report.comment %></p>
+                <% end %>
+              </div>
+            </div>
+	        </section>
+    </div>
+  </div>
 </div>

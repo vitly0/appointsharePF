@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :admin do
     get '/search', to: 'searches#search'
+    get 'end_users/users/index/:id' => 'end_users#schedule_index', as: 'admin_schedule'
     resources :schedules, only: [:index, :show, :edit, :update, :destroy]
     resources :end_users, only: [:index, :show, :edit, :update]
   end
@@ -38,7 +39,7 @@ Rails.application.routes.draw do
     sessions: 'public/sessions',
     registrations: 'public/registrations',
   }
-  
+
   devise_for :admin, skip: [:registrations, :passwords] , controllers: {
     sessions: "admin/sessions"
   }
