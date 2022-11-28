@@ -4,7 +4,7 @@
       <div class='col-3'>
         <p class='mt-3'>参加者(<%= @schedule.attends.count %>人)</p>
           <% @attends.each do |attend| %>
-            <%= link_to user_page_path(attend.end_user.id) do %>
+            <%= link_to admin_end_user_path(attend.end_user.id) do %>
               <p><%= attend.end_user.full_name %></p>
             <% end %>
           <% end %>
