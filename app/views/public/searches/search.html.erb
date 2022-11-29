@@ -41,6 +41,7 @@
               </tbody>
             </table>
         <% elsif @model == 'schedule' %>
+          <h3>Schedule search for "<%= @content %>"</h3>
           <h2>検索予定一覧</h2>
           <table class='table'>
             <thead>
@@ -62,7 +63,7 @@
               <% end %>
             </tbody>
           </table>
-        <% end %> 
+        <% end %>
       <% else %>
         <h2 class="my-3">"検索データが見つかりませんでした"</h2>
       <% end %>
